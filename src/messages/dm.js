@@ -3,10 +3,8 @@ const discord = require("discord.js");
 module.exports = async (client, message) => {
   const guild = client.guilds.cache.get(client.guildId);
   if (guild.channels.cache.find((c) => c.name === message.author.id)) {
-    const c = message.guild.channels.cache.find(
-      (c) => c.name === message.author.id
-    );
-    c.send({ content: message.content });
+    const c = guild.channels.cache.find((c) => c.name === message.author.id);
+    if (message.content) c.send({ content: message.content });
     if (message.attachments)
       c.send({
         content:
@@ -67,7 +65,7 @@ module.exports = async (client, message) => {
           embeds: [embed],
           components: [botao],
         }).then((msg) => msg.pin());
-        c.send({ content: message.content });
+        if (message.content) c.send({ content: message.content });
         if (message.attachments)
           c.send({
             content:
